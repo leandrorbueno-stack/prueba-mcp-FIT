@@ -2,10 +2,7 @@ from fastmcp import FastMCP
 import psycopg2
 import os
 
-# Inicializamos el servidor MCP
 mcp = FastMCP("Servidor_DB_Remoto")
-
-# Obtenemos la conexión desde las variables de entorno
 DB_URL = os.environ.get("DATABASE_URL")
 
 @mcp.tool()
@@ -31,4 +28,10 @@ def obtener_usuarios() -> str:
 
 if __name__ == "__main__":
     puerto = int(os.environ.get("PORT", 8080))
-    mcp.run(transport="sse", host="0.0.0.0", port=puerto)
+    
+    # Agregamos allowed_origins=["*"] para autorizar la conexión desde el Inspector o Cloud Shell
+    mcp.run(
+        transport="sse", 
+        host="0.0.0.0", 
+        port=puerto
+    )
