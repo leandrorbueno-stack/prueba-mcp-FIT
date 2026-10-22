@@ -9,24 +9,31 @@ DB_URL = os.environ.get("DATABASE_URL")
 
 @mcp.tool()
 def obtener_usuarios() -> str:
-    """Obtiene la lista de usuarios almacenados en la base de datos PostgreSQL."""
+    """
+    Obtiene la lista completa de usuarios registrados en la base de datos, 
+    incluyendo su ID, nombre, apellido y correo electrónico.
+    """
     if not DB_URL:
         return "Error: La variable DATABASE_URL no está configurada."
+
     try:
         conn = psycopg2.connect(DB_URL)
         cursor = conn.cursor()
-        cursor.execute("SELECT id, nombre, email FROM usuarios LIMIT 5;")
-        usuarios = cursor.fetchall()
-        
-        resultado = "Usuarios encontrados:\n"
-        for u in usuarios:
-            resultado += f"- ID: {u[0]} | Nombre: {u[1]} | Email: {u[2]}\n"
-            
+        cursor.execute("SELECT id, nombre, apellido, email FROM usuarios ORDER BY apellido ASC;")
+        filas = cursor.fetchall()
         cursor.close()
         conn.close()
+
+        if not filas:
+            return "No hay usuarios registrados."
+
+        resultado = "Usuarios encontrados:\n"
+        for fila in filas:
+            resultado += f"- ID: {fila[0]} | Nombre: {fila[1]} | Apellido: {fila[2]} | Email: {fila[3]}\n"
+
         return resultado
     except Exception as e:
-        return f"Error de conexión a la base de datos: {e}"
+        return f"Error al consultar la base de datos: {e}"
 
 if __name__ == "__main__":
     puerto = int(os.environ.get("PORT", 8080))
