@@ -2,11 +2,8 @@ from fastmcp import FastMCP
 import psycopg2
 import os
 
-# Permitimos todos los orígenes ("*") para autorizar la conexión del Inspector
-mcp = FastMCP(
-    "Servidor_DB_Remoto",
-    allowed_origins=["*"]
-)
+# Inicialización limpia de FastMCP
+mcp = FastMCP("Servidor_DB_Remoto")
 
 DB_URL = os.environ.get("DATABASE_URL")
 
