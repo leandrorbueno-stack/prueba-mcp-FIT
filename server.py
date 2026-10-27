@@ -87,4 +87,6 @@ def ejecutar_select(sql_query: str) -> str:
         return f"Error al ejecutar la consulta SQL: {e}"
 
 if __name__ == "__main__":
-    mcp.run(transport="sse")
+    # Render asigna el puerto mediante la variable de entorno PORT
+    puerto = int(os.environ.get("PORT", 8000))
+    mcp.run(transport="sse", host="0.0.0.0", port=puerto)
