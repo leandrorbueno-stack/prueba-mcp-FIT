@@ -1,6 +1,6 @@
 import os
 import psycopg2
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 
 # Inicializar FastMCP
 mcp = FastMCP("Servidor PostgreSQL Neon")
