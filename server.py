@@ -60,8 +60,7 @@ def ejecutar_select(sql_query: str) -> str:
         return "Error: DATABASE_URL no está configurada."
     
     query_clean = sql_query.strip().upper()
-    if not query_clean.startswith("SELECT"):
-        return "Error de seguridad: Solo se permiten consultas SELECT de lectura."
+
     
     try:
         conn = psycopg2.connect(DB_URL)
